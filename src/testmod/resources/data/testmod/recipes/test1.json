@@ -1,0 +1,10 @@
+{
+  "type": "testmod:test_recipe",
+  "input": {
+    "item": "minecraft:stone"
+  },
+  "output": {
+    "id": "minecraft:stone",
+    "Count": 2
+  }
+}

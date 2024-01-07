@@ -1,0 +1,16 @@
+{
+  "id": "tlaapi_testmod",
+  "version": "1",
+  "schemaVersion": 1,
+  "entrypoints": {
+    "main": [
+      "io.github.mattidragon.tlaapi.testmod.content.TestMod"
+    ],
+    "client": [
+      "io.github.mattidragon.tlaapi.testmod.content.TestModClient"
+    ],
+    "tla-api": [
+      "io.github.mattidragon.tlaapi.testmod.TestPlugin"
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "tla-api",
+  "version": "${version}",
+  "name": "TLA-Api",
+  "description": "An abstraction layer over recipe viewer apis for minecraft.",
+  "authors": [
+    "MattiDragon"
+  ],
+  "contact": {
+    "homepage": "https://github.com/MattiDragon/TlaApi",
+    "sources": "https://github.com/MattiDragon/TlaApi",
+    "issues": "https://github.com/MattiDragon/TlaApi/issues",
+    "discord": "https://discord.gg/26T5KK2PBv"
+  },
+  "license": "MIT",
+  "icon": "assets/tla-api/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "emi": [
+      "io.github.mattidragon.tlaapi.impl.emi.TlaApiEmiPlugin"
+    ],
+    "rei_client": [
+      "io.github.mattidragon.tlaapi.impl.rei.TlaApiReiPlugin"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.15.3",
+    "minecraft": "~1.20.4",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}
