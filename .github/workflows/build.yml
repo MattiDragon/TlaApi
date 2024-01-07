@@ -3,9 +3,6 @@ name: Build
 on:
   push:
 
-env:
-  DEV_BUILD: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
