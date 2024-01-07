@@ -1,11 +1,11 @@
 package io.github.mattidragon.tlaapi.testmod;
 
+import io.github.mattidragon.tlaapi.api.gui.GuiBuilder;
+import io.github.mattidragon.tlaapi.api.gui.TextureConfig;
 import io.github.mattidragon.tlaapi.api.recipe.TlaCategory;
 import io.github.mattidragon.tlaapi.api.recipe.TlaIngredient;
 import io.github.mattidragon.tlaapi.api.recipe.TlaRecipe;
 import io.github.mattidragon.tlaapi.api.recipe.TlaStack;
-import io.github.mattidragon.tlaapi.api.gui.GuiBuilder;
-import io.github.mattidragon.tlaapi.api.gui.TextureConfig;
 import io.github.mattidragon.tlaapi.testmod.content.TestRecipe;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.text.Text;

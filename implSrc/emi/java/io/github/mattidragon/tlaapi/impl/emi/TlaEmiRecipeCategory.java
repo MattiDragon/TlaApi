@@ -3,7 +3,6 @@ package io.github.mattidragon.tlaapi.impl.emi;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeSorting;
-import dev.emi.emi.api.stack.EmiStack;
 import io.github.mattidragon.tlaapi.api.recipe.TlaCategory;
 import net.minecraft.text.Text;
 

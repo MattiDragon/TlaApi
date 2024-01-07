@@ -1,7 +1,6 @@
 package io.github.mattidragon.tlaapi.api.recipe;
 
 import io.github.mattidragon.tlaapi.impl.PluginsExtend;
-import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;

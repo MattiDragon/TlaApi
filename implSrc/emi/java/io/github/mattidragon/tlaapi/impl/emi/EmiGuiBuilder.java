@@ -1,9 +1,12 @@
 package io.github.mattidragon.tlaapi.impl.emi;
 
 import dev.emi.emi.api.render.EmiTexture;
-import dev.emi.emi.api.widget.*;
-import io.github.mattidragon.tlaapi.api.recipe.TlaIngredient;
+import dev.emi.emi.api.widget.SlotWidget;
+import dev.emi.emi.api.widget.TextWidget;
+import dev.emi.emi.api.widget.Widget;
+import dev.emi.emi.api.widget.WidgetHolder;
 import io.github.mattidragon.tlaapi.api.gui.*;
+import io.github.mattidragon.tlaapi.api.recipe.TlaIngredient;
 import net.minecraft.text.Text;
 
 import java.util.List;

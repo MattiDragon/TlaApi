@@ -117,6 +117,11 @@ public class TlaApiReiPlugin implements REIClientPlugin, PluginContext {
         exclusionZoneProviders.add(new TlaExclusionZoneProvider<>(clazz, provider));
     }
 
+    @Override
+    public String toString() {
+        return "REI plugin handler";
+    }
+
     private record RecipeGenerator<T extends Recipe<?>>(RecipeType<T> type, Function<RecipeEntry<T>, TlaRecipe> generator) {}
 
     @SuppressWarnings("unchecked")

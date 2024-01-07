@@ -32,7 +32,7 @@ public final class AnimatedTextureWidget extends WidgetWithBounds {
     private final int textureHeight;
     private final boolean horizontal, endToStart, fullToEmpty;
     
-    public AnimatedTextureWidget(Rectangle bounds, double animationDuration, Identifier darkTexture, Identifier lightTexture, int u, int v, int regionWidth, int regionHeight, int textureWidth, int textureHeight, boolean horizontal, boolean endToStart, boolean fullToEmpty) {
+    private AnimatedTextureWidget(Rectangle bounds, double animationDuration, Identifier darkTexture, Identifier lightTexture, int u, int v, int regionWidth, int regionHeight, int textureWidth, int textureHeight, boolean horizontal, boolean endToStart, boolean fullToEmpty) {
         this.bounds = new Rectangle(Objects.requireNonNull(bounds));
         this.animationDuration = animationDuration;
         this.darkTexture = darkTexture;
@@ -46,10 +46,6 @@ public final class AnimatedTextureWidget extends WidgetWithBounds {
         this.horizontal = horizontal;
         this.endToStart = endToStart;
         this.fullToEmpty = fullToEmpty;
-    }
-
-    public AnimatedTextureWidget(Identifier darkTexture, Identifier lightTexture, int x, int y, int width, int height, int u, int v, int textureHeight, int textureWidth, boolean horizontal, boolean endToStart, boolean fullToEmpty, double animationDuration) {
-        this(new Rectangle(x, y, width, height), animationDuration, darkTexture, lightTexture, u, v, width, height, textureWidth, textureHeight, horizontal, endToStart, fullToEmpty);
     }
     
     @Override

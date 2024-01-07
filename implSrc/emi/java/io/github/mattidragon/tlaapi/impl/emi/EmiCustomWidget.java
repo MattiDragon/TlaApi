@@ -4,7 +4,6 @@ import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.Widget;
 import io.github.mattidragon.tlaapi.api.gui.CustomTlaWidget;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class EmiCustomWidget extends Widget {
     private final CustomTlaWidget widget;

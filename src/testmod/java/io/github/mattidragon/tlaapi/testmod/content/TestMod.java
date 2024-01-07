@@ -14,7 +14,6 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.text.Text;
-import org.jetbrains.annotations.Nullable;
 
 public class TestMod implements ModInitializer {
     public static final RecipeType<TestRecipe> RECIPE_TYPE = RecipeType.register("testmod:test_recipe");

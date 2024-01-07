@@ -1,8 +1,6 @@
 package io.github.mattidragon.tlaapi.api.plugin;
 
 import io.github.mattidragon.tlaapi.impl.PluginOnly;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 /**
  * This interface serves as the entrypoint for all plugins to the TLA API.

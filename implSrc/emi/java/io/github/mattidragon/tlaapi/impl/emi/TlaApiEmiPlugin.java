@@ -8,10 +8,10 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.widget.Bounds;
 import io.github.mattidragon.tlaapi.api.StackDragHandler;
 import io.github.mattidragon.tlaapi.api.gui.TlaBounds;
-import io.github.mattidragon.tlaapi.api.plugin.PluginLoader;
-import io.github.mattidragon.tlaapi.api.recipe.TlaRecipe;
-import io.github.mattidragon.tlaapi.api.recipe.TlaCategory;
 import io.github.mattidragon.tlaapi.api.plugin.PluginContext;
+import io.github.mattidragon.tlaapi.api.plugin.PluginLoader;
+import io.github.mattidragon.tlaapi.api.recipe.TlaCategory;
+import io.github.mattidragon.tlaapi.api.recipe.TlaRecipe;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -109,6 +109,11 @@ public class TlaApiEmiPlugin implements EmiPlugin {
                     consumer.accept(bounds);
                 }
             });
+        }
+
+        @Override
+        public String toString() {
+            return "EMI plugin handler";
         }
     }
 }

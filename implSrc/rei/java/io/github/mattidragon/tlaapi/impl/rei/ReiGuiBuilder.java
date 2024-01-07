@@ -1,7 +1,7 @@
 package io.github.mattidragon.tlaapi.impl.rei;
 
-import io.github.mattidragon.tlaapi.api.recipe.TlaIngredient;
 import io.github.mattidragon.tlaapi.api.gui.*;
+import io.github.mattidragon.tlaapi.api.recipe.TlaIngredient;
 import io.github.mattidragon.tlaapi.impl.rei.util.ReiCustomWidget;
 import io.github.mattidragon.tlaapi.impl.rei.util.TextureWidget;
 import io.github.mattidragon.tlaapi.impl.rei.util.TlaWidgets;

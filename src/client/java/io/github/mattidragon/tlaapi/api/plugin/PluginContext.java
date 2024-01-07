@@ -13,7 +13,6 @@ import net.minecraft.recipe.RecipeType;
 
 import java.util.List;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 /**
  * The main way plugins interact with the API.

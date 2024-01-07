@@ -1,15 +1,11 @@
 package io.github.mattidragon.tlaapi.api;
 
 import io.github.mattidragon.tlaapi.api.gui.TlaBounds;
-import io.github.mattidragon.tlaapi.api.recipe.TlaIngredient;
 import io.github.mattidragon.tlaapi.api.recipe.TlaStack;
-import it.unimi.dsi.fastutil.objects.Object2BooleanFunction;
 import net.minecraft.client.gui.screen.Screen;
 
 import java.util.Collection;
-import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 /**
  * A handler for dragging ghost stacks onto a screen.

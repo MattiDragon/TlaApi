@@ -2,7 +2,6 @@ package io.github.mattidragon.tlaapi.testmod.content;
 
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
@@ -13,11 +12,6 @@ public class TestScreen extends HandledScreen<TestScreenHandler> {
 
     public TestScreen(TestScreenHandler handler, PlayerInventory playerInventory, Text title) {
         super(handler, playerInventory, title);
-    }
-
-    @Override
-    protected void init() {
-        super.init();
     }
 
     @Override
