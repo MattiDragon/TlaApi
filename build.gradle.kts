@@ -11,7 +11,7 @@ val loaderVersion = property("loader_version") as String
 val fabricVersion = property("fabric_version") as String
 
 version = property("mod_version") as String
-group = "tlaapi"
+group = "io.github.mattidragon"
 base.archivesName = "TLA-Api"
 
 repositories {

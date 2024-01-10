@@ -3,6 +3,7 @@ package io.github.mattidragon.tlaapi.api.plugin;
 import io.github.mattidragon.tlaapi.api.StackDragHandler;
 import io.github.mattidragon.tlaapi.api.gui.TlaBounds;
 import io.github.mattidragon.tlaapi.api.recipe.TlaCategory;
+import io.github.mattidragon.tlaapi.api.recipe.TlaIngredient;
 import io.github.mattidragon.tlaapi.api.recipe.TlaRecipe;
 import io.github.mattidragon.tlaapi.impl.ImplementationsExtend;
 import net.minecraft.client.MinecraftClient;
@@ -28,6 +29,8 @@ public interface PluginContext {
      * @see TlaCategory
      */
     void addCategory(TlaCategory category);
+
+    void addWorkstation(TlaCategory category, TlaIngredient... workstations);
 
     /**
      * Adds a recipe generator that create recipe entries in the recipe viewer for all recipes of a given type.

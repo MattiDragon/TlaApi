@@ -11,6 +11,7 @@ import io.github.mattidragon.tlaapi.api.gui.TlaBounds;
 import io.github.mattidragon.tlaapi.api.plugin.PluginContext;
 import io.github.mattidragon.tlaapi.api.plugin.PluginLoader;
 import io.github.mattidragon.tlaapi.api.recipe.TlaCategory;
+import io.github.mattidragon.tlaapi.api.recipe.TlaIngredient;
 import io.github.mattidragon.tlaapi.api.recipe.TlaRecipe;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -44,6 +45,15 @@ public class TlaApiEmiPlugin implements EmiPlugin {
             var emiCategory = new TlaEmiRecipeCategory(category);
             categories.put(category, emiCategory);
             registry.addCategory(emiCategory);
+        }
+
+        @Override
+        public void addWorkstation(TlaCategory category, TlaIngredient... workstations) {
+            var emiCategory = categories.get(category);
+            if (emiCategory == null) throw new IllegalArgumentException("Category " + category + " not registered");
+            for (TlaIngredient workstation : workstations) {
+                registry.addWorkstation(emiCategory, EmiUtils.convertIngredient(workstation));
+            }
         }
 
         @SuppressWarnings("unchecked") // For some reason RecipeManager needs an inventory generic, which we don't have but don't need either

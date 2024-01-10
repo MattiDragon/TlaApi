@@ -1,10 +1,13 @@
 package io.github.mattidragon.tlaapi.impl.rei;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import io.github.mattidragon.tlaapi.api.StackDragHandler;
 import io.github.mattidragon.tlaapi.api.gui.TlaBounds;
 import io.github.mattidragon.tlaapi.api.plugin.PluginContext;
 import io.github.mattidragon.tlaapi.api.plugin.PluginLoader;
 import io.github.mattidragon.tlaapi.api.recipe.TlaCategory;
+import io.github.mattidragon.tlaapi.api.recipe.TlaIngredient;
 import io.github.mattidragon.tlaapi.api.recipe.TlaRecipe;
 import io.github.mattidragon.tlaapi.impl.rei.util.TlaDragHandler;
 import io.github.mattidragon.tlaapi.impl.rei.util.TlaExclusionZoneProvider;
@@ -27,6 +30,7 @@ import java.util.function.Function;
 
 public class TlaApiReiPlugin implements REIClientPlugin, PluginContext {
     private final Map<TlaCategory, TlaDisplayCategory> categories = new HashMap<>();
+    private final Multimap<TlaDisplayCategory, TlaIngredient> workstations = HashMultimap.create();
     private final List<RecipeGenerator<?>> recipeGenerators = new ArrayList<>();
     private final List<Function<MinecraftClient, List<TlaRecipe>>> customGenerators = new ArrayList<>();
     private final List<TlaDragHandler<?>> stackDragHandlers = new ArrayList<>();
@@ -50,6 +54,7 @@ public class TlaApiReiPlugin implements REIClientPlugin, PluginContext {
     @Override
     public void registerCategories(CategoryRegistry registry) {
         registry.add(Collections.unmodifiableCollection(categories.values()));
+        workstations.forEach((category, workstation) -> registry.addWorkstations(category.getCategoryIdentifier(), ReiUtil.convertIngredient(workstation)));
     }
 
     @Override
@@ -90,6 +95,15 @@ public class TlaApiReiPlugin implements REIClientPlugin, PluginContext {
     @Override
     public void addCategory(TlaCategory category) {
         categories.put(category, new TlaDisplayCategory(category));
+    }
+
+    @Override
+    public void addWorkstation(TlaCategory category, TlaIngredient... workstations) {
+        var displayCategory = categories.get(category);
+        if (displayCategory == null) throw new IllegalArgumentException("Category " + category + " not registered");
+        for (TlaIngredient workstation : workstations) {
+            this.workstations.put(displayCategory, workstation);
+        }
     }
 
     @Override

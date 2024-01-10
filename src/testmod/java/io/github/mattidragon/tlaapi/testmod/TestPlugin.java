@@ -7,6 +7,7 @@ import io.github.mattidragon.tlaapi.api.plugin.TlaApiPlugin;
 import io.github.mattidragon.tlaapi.api.recipe.TlaStack;
 import io.github.mattidragon.tlaapi.testmod.content.TestMod;
 import io.github.mattidragon.tlaapi.testmod.content.TestScreen;
+import net.minecraft.item.Items;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class TestPlugin implements TlaApiPlugin {
     @Override
     public void register(PluginContext context) {
         context.addCategory(TEST_CATEGORY);
+        context.addWorkstation(TEST_CATEGORY, TlaStack.of(Items.DIRT).asIngredient());
         context.addRecipeGenerator(TestMod.RECIPE_TYPE, TestDisplay::new);
         context.addGenerator(client -> List.of(new TestCustomDisplay(), new TestTextDisplay()));
         context.addStackDragHandler(TestScreen.class, screen -> {

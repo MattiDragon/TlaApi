@@ -92,6 +92,10 @@ public sealed abstract class TlaStack {
      */
     public abstract TlaStack withoutChance();
 
+    public TlaIngredient asIngredient() {
+        return TlaIngredient.ofStacks(this);
+    }
+
     public static final class TlaFluidStack extends TlaStack {
         private final FluidVariant fluid;
 
