@@ -10,6 +10,7 @@ public class EmiCustomWidget extends Widget {
 
     public EmiCustomWidget(CustomTlaWidget widget) {
         this.widget = widget;
+        widget.setTheme(false);
     }
 
     @Override

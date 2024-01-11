@@ -66,7 +66,7 @@ public class EmiUtils {
             return convertStack(stackIcon.stack());
         } else if (icon instanceof CategoryIcon.TextureIcon textureIcon) {
             var config = textureIcon.texture();
-            return new EmiTexture(config.texture(),
+            return new EmiTexture(config.lightTexture(),
                     config.width(), config.height(),
                     config.u(), config.v(),
                     config.regionWidth(), config.regionHeight(),

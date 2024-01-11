@@ -27,7 +27,7 @@ public class EmiGuiBuilder implements GuiBuilder {
 
     @Override
     public WidgetConfig addTexture(TextureConfig config, int x, int y) {
-        var widget = widgetHolder.addTexture(config.texture(),
+        var widget = widgetHolder.addTexture(config.lightTexture(),
                 x, y,
                 config.width(), config.height(),
                 config.u(), config.v(),

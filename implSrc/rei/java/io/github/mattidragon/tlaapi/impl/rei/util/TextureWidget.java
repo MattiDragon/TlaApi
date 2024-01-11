@@ -44,7 +44,7 @@ public final class TextureWidget extends WidgetWithBounds {
 
     public TextureWidget(int x, int y, TextureConfig config) {
         this(new Rectangle(x, y, config.width(), config.height()),
-                config.texture(), config.texture(),
+                config.lightTexture(), config.darkTexture(),
                 config.u(), config.v(),
                 config.regionWidth(), config.regionHeight(),
                 config.textureWidth(), config.textureHeight());
