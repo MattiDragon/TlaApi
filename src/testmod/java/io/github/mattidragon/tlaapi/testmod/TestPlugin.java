@@ -18,8 +18,8 @@ public class TestPlugin implements TlaApiPlugin {
     public void register(PluginContext context) {
         context.addCategory(TEST_CATEGORY);
         context.addWorkstation(TEST_CATEGORY, TlaStack.of(Items.DIRT).asIngredient());
-        context.addRecipeGenerator(TestMod.RECIPE_TYPE, TestDisplay::new);
-        context.addGenerator(client -> List.of(new TestCustomDisplay(), new TestTextDisplay()));
+        context.addRecipeGenerator(TestMod.RECIPE_TYPE, TestTlaRecipe::new);
+        context.addGenerator(client -> List.of(new TestCustomRecipe(), new TestTextDisplay(), new ProgressBarTestRecipe()));
         context.addStackDragHandler(TestScreen.class, screen -> {
             var bounds = new TlaBounds(screen.width / 2, screen.height / 2, 18, 18);
             return List.of(new StackDragHandler.DropTarget(bounds, stack -> {

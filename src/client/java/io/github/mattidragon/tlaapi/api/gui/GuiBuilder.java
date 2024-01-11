@@ -9,6 +9,7 @@ import net.minecraft.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.DoubleSupplier;
 
 /**
  * Recipe viewer agnostic GUI builder.
@@ -44,6 +45,49 @@ public interface GuiBuilder {
      * @see #addAnimatedFlame
      */
     WidgetConfig addTexture(TextureConfig config, int x, int y);
+
+    /**
+     * Adds an animated texture to the GUI.
+     * The texture is animated by selectively only rendering parts of it.
+     * For other kinds of animation you can use minecrafts built in texture animation system.
+     * @param config The texture to use.
+     * @param duration The duration of the animation in milliseconds.
+     * @param horizontal If true, the animation will be horizontal, otherwise vertical.
+     * @param endToStart If true, the animation will start at the end and move to the start, otherwise the other way around.
+     * @param fullToEmpty If true, the animation will start with the full texture and move to the empty texture, otherwise the other way around.
+     * @see #addProgressingTexture(TextureConfig, int, int, DoubleSupplier, boolean, boolean, boolean)
+     */
+    WidgetConfig addAnimatedTexture(TextureConfig config, int x, int y, int duration, boolean horizontal, boolean endToStart, boolean fullToEmpty);
+
+    /**
+     * Adds a textures similarly to {@link #addAnimatedTexture(TextureConfig, int, int, int, boolean, boolean, boolean)},
+     * except that the animation progress isn't linearly calculated from a duration but instead specified by a supplier.
+     * This allows for more complex animations and providing outputs that change over time.
+     * @param config The texture to use.
+     * @param progress A supplier that returns the progress of the animation as a value between 0 and 1.
+     * @param horizontal If true, the animation will be horizontal, otherwise vertical.
+     * @param endToStart If true, the animation will start at the end and move to the start, otherwise the other way around.
+     * @param fullToEmpty If true, the animation will start with the full texture and move to the empty texture, otherwise the other way around.
+     * @see #addAnimatedTexture(TextureConfig, int, int, int, boolean, boolean, boolean)
+     * @see #addProgressingTexture(TextureConfig, int, int, double, boolean, boolean, boolean)
+     */
+    WidgetConfig addProgressingTexture(TextureConfig config, int x, int y, DoubleSupplier progress, boolean horizontal, boolean endToStart, boolean fullToEmpty);
+
+    /**
+     * Adds a texture similarly to {@link #addAnimatedTexture(TextureConfig, int, int, int, boolean, boolean, boolean)},
+     * except that the animation progress is fixed to a value.
+     *
+     * @param config The texture to use.
+     * @param progress The progress of the animation as a value between 0 and 1.
+     * @param horizontal If true, the animation will be horizontal, otherwise vertical.
+     * @param endToStart If true, the animation will start at the end and move to the start, otherwise the other way around.
+     * @param fullToEmpty If true, the animation will start with the full texture and move to the empty texture, otherwise the other way around.
+     * @see #addAnimatedTexture(TextureConfig, int, int, int, boolean, boolean, boolean)
+     * @see #addProgressingTexture(TextureConfig, int, int, double, boolean, boolean, boolean)
+     */
+    default WidgetConfig addProgressingTexture(TextureConfig config, int x, int y, double progress, boolean horizontal, boolean endToStart, boolean fullToEmpty) {
+        return addProgressingTexture(config, x, y, () -> progress, horizontal, endToStart, fullToEmpty);
+    }
 
     /**
      * Utility for adding an arrow texture to the GUI.

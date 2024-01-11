@@ -10,6 +10,7 @@ import io.github.mattidragon.tlaapi.api.recipe.TlaIngredient;
 import net.minecraft.text.Text;
 
 import java.util.List;
+import java.util.function.DoubleSupplier;
 
 public class EmiGuiBuilder implements GuiBuilder {
     private final TlaEmiRecipe recipe;
@@ -33,6 +34,36 @@ public class EmiGuiBuilder implements GuiBuilder {
                 config.u(), config.v(),
                 config.regionWidth(), config.regionHeight(),
                 config.textureWidth(), config.textureHeight());
+        return new EmiWidgetConfig<>(widget);
+    }
+
+    @Override
+    public WidgetConfig addAnimatedTexture(TextureConfig config, int x, int y, int duration, boolean horizontal, boolean endToStart, boolean fullToEmpty) {
+        var widget = widgetHolder.addAnimatedTexture(config.lightTexture(),
+                x, y,
+                config.width(), config.height(),
+                config.u(), config.v(),
+                config.regionWidth(), config.regionHeight(),
+                config.textureWidth(), config.textureHeight(),
+                duration,
+                horizontal,
+                endToStart,
+                fullToEmpty);
+        return new EmiWidgetConfig<>(widget);
+    }
+
+    @Override
+    public WidgetConfig addProgressingTexture(TextureConfig config, int x, int y, DoubleSupplier progress, boolean horizontal, boolean endToStart, boolean fullToEmpty) {
+        var widget = widgetHolder.add(new ProgressingTextureWidget(config.lightTexture(),
+                x, y,
+                config.width(), config.height(),
+                config.u(), config.v(),
+                config.regionWidth(), config.regionHeight(),
+                config.textureWidth(), config.textureHeight(),
+                progress,
+                horizontal,
+                endToStart,
+                fullToEmpty));
         return new EmiWidgetConfig<>(widget);
     }
 

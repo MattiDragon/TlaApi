@@ -13,11 +13,12 @@ import net.minecraft.util.Identifier;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.DoubleSupplier;
 
 // hopefully working combination of EMI and REI code
 public final class AnimatedTextureWidget extends WidgetWithBounds {
     private final Rectangle bounds;
-    private final double animationDuration;
+    private final DoubleSupplier progressSupplier;
     private final NumberAnimator<Float> darkBackgroundAlpha = ValueAnimator.ofFloat()
             .withConvention(() -> REIRuntime.getInstance().isDarkThemeEnabled() ? 1.0F : 0.0F, ValueAnimator.typicalTransitionTime())
             .asFloat();
@@ -31,10 +32,10 @@ public final class AnimatedTextureWidget extends WidgetWithBounds {
     private final int textureWidth;
     private final int textureHeight;
     private final boolean horizontal, endToStart, fullToEmpty;
-    
-    private AnimatedTextureWidget(Rectangle bounds, double animationDuration, Identifier darkTexture, Identifier lightTexture, int u, int v, int regionWidth, int regionHeight, int textureWidth, int textureHeight, boolean horizontal, boolean endToStart, boolean fullToEmpty) {
-        this.bounds = new Rectangle(Objects.requireNonNull(bounds));
-        this.animationDuration = animationDuration;
+
+    public AnimatedTextureWidget(Rectangle bounds, DoubleSupplier progressSupplier, Identifier darkTexture, Identifier lightTexture, int u, int v, int regionWidth, int regionHeight, int textureWidth, int textureHeight, boolean horizontal, boolean endToStart, boolean fullToEmpty) {
+        this.bounds = bounds;
+        this.progressSupplier = progressSupplier;
         this.darkTexture = darkTexture;
         this.lightTexture = lightTexture;
         this.u = u;
@@ -47,7 +48,7 @@ public final class AnimatedTextureWidget extends WidgetWithBounds {
         this.endToStart = endToStart;
         this.fullToEmpty = fullToEmpty;
     }
-    
+
     @Override
     public Rectangle getBounds() {
         return bounds;
@@ -74,10 +75,9 @@ public final class AnimatedTextureWidget extends WidgetWithBounds {
 
         var texture = dark ? darkTexture : lightTexture;
 
-        var time = (int) animationDuration;
-        var subTime = (int) (System.currentTimeMillis() % time);
+        var progress = progressSupplier.getAsDouble();
         if (endToStart ^ fullToEmpty) {
-            subTime = time - subTime;
+            progress = 1 - progress;
         }
 
         int mx = x, my = y;
@@ -86,23 +86,23 @@ public final class AnimatedTextureWidget extends WidgetWithBounds {
         int mrw = regionWidth, mrh = regionHeight;
         if (horizontal) {
             if (endToStart) {
-                mx = x + width * subTime / time;
-                mu = u + regionWidth * subTime / time;
+                mx = (int) (x + width * progress);
+                mu = (int) (u + regionWidth * progress);
                 mw = width - (mx - x);
                 mrw = regionWidth - (mu - u);
             } else {
-                mw = width * subTime / time;
-                mrw = regionWidth * subTime / time;
+                mw = (int) (width * progress);
+                mrw = (int) (regionWidth * progress);
             }
         } else {
             if (endToStart) {
-                my = y + height * subTime / time;
-                mv = v + regionHeight * subTime / time;
+                my = (int) (y + height * progress);
+                mv = (int) (v + regionHeight * progress);
                 mh = height - (my - y);
                 mrh = regionHeight - (mv - v);
             } else {
-                mh = height * subTime / time;
-                mrh = regionHeight * subTime / time;
+                mh = (int) (height * progress);
+                mrh = (int) (regionHeight * progress);
             }
         }
 
@@ -118,7 +118,7 @@ public final class AnimatedTextureWidget extends WidgetWithBounds {
 
     public static class Builder {
         private final Rectangle bounds;
-        private double animationDuration = -1;
+        private DoubleSupplier progressSupplier;
         private Identifier darkTexture;
         private Identifier lightTexture;
         private int u = 0;
@@ -143,7 +143,12 @@ public final class AnimatedTextureWidget extends WidgetWithBounds {
 
         public Builder animationDuration(double animationDuration) {
             if (animationDuration <= 0) throw new IllegalArgumentException("Animation duration must be positive");
-            this.animationDuration = animationDuration;
+            this.progressSupplier = () -> (System.currentTimeMillis() % (long) animationDuration) / animationDuration;
+            return this;
+        }
+
+        public Builder progress(DoubleSupplier progressSupplier) {
+            this.progressSupplier = progressSupplier;
             return this;
         }
 
@@ -198,10 +203,17 @@ public final class AnimatedTextureWidget extends WidgetWithBounds {
             return this;
         }
 
+        public Builder flags(boolean horizontal, boolean endToStart, boolean fullToEmpty) {
+            this.horizontal = horizontal;
+            this.endToStart = endToStart;
+            this.fullToEmpty = fullToEmpty;
+            return this;
+        }
+
         public AnimatedTextureWidget build() {
-            if (animationDuration <= 0) throw new IllegalStateException("Animation duration must be set");
+            if (progressSupplier == null) throw new IllegalStateException("Progress must be set");
             if (darkTexture == null || lightTexture == null) throw new IllegalStateException("Texture must be set");
-            return new AnimatedTextureWidget(bounds, animationDuration, darkTexture, lightTexture, u, v, regionWidth, regionHeight, textureWidth, textureHeight, horizontal, endToStart, fullToEmpty);
+            return new AnimatedTextureWidget(bounds, progressSupplier, darkTexture, lightTexture, u, v, regionWidth, regionHeight, textureWidth, textureHeight, horizontal, endToStart, fullToEmpty);
         }
     }
 }

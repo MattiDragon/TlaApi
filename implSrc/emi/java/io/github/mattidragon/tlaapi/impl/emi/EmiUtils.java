@@ -67,8 +67,8 @@ public class EmiUtils {
         } else if (icon instanceof CategoryIcon.TextureIcon textureIcon) {
             var config = textureIcon.texture();
             return new EmiTexture(config.lightTexture(),
-                    config.width(), config.height(),
                     config.u(), config.v(),
+                    config.width(), config.height(),
                     config.regionWidth(), config.regionHeight(),
                     config.textureWidth(), config.textureHeight());
         } else {

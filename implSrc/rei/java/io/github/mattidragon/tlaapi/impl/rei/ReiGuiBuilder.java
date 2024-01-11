@@ -2,6 +2,7 @@ package io.github.mattidragon.tlaapi.impl.rei;
 
 import io.github.mattidragon.tlaapi.api.gui.*;
 import io.github.mattidragon.tlaapi.api.recipe.TlaIngredient;
+import io.github.mattidragon.tlaapi.impl.rei.util.AnimatedTextureWidget;
 import io.github.mattidragon.tlaapi.impl.rei.util.ReiCustomWidget;
 import io.github.mattidragon.tlaapi.impl.rei.util.TextureWidget;
 import io.github.mattidragon.tlaapi.impl.rei.util.TlaWidgets;
@@ -13,6 +14,7 @@ import net.minecraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.DoubleSupplier;
 
 public class ReiGuiBuilder implements GuiBuilder {
     private final List<Widget> widgets = new ArrayList<>();
@@ -35,6 +37,34 @@ public class ReiGuiBuilder implements GuiBuilder {
     @Override
     public WidgetConfig addTexture(TextureConfig config, int x, int y) {
         var widget = new TextureWidget(x + bounds.x, y + bounds.y, config);
+        widgets.add(widget);
+        return new ReiWidgetConfig<>(widget);
+    }
+
+    @Override
+    public WidgetConfig addAnimatedTexture(TextureConfig config, int x, int y, int duration, boolean horizontal, boolean endToStart, boolean fullToEmpty) {
+        var widget = new AnimatedTextureWidget.Builder(x + bounds.x, y + bounds.y, config.width(), config.height())
+                .animationDuration(duration)
+                .texture(config.darkTexture(), config.lightTexture())
+                .flags(horizontal, endToStart, fullToEmpty)
+                .uv(config.u(), config.v())
+                .regionSize(config.regionWidth(), config.regionHeight())
+                .textureSize(config.textureWidth(), config.textureHeight())
+                .build();
+        widgets.add(widget);
+        return new ReiWidgetConfig<>(widget);
+    }
+
+    @Override
+    public WidgetConfig addProgressingTexture(TextureConfig config, int x, int y, DoubleSupplier progress, boolean horizontal, boolean endToStart, boolean fullToEmpty) {
+        var widget = new AnimatedTextureWidget.Builder(x + bounds.x, y + bounds.y, config.width(), config.height())
+                .progress(progress)
+                .texture(config.darkTexture(), config.lightTexture())
+                .flags(horizontal, endToStart, fullToEmpty)
+                .uv(config.u(), config.v())
+                .regionSize(config.regionWidth(), config.regionHeight())
+                .textureSize(config.textureWidth(), config.textureHeight())
+                .build();
         widgets.add(widget);
         return new ReiWidgetConfig<>(widget);
     }

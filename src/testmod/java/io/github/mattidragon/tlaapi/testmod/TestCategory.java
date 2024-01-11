@@ -25,7 +25,7 @@ public class TestCategory implements TlaCategory {
 
     @Override
     public int getDisplayWidth() {
-        return 18 * 4;
+        return 72;
     }
 
     @Override
@@ -35,6 +35,6 @@ public class TestCategory implements TlaCategory {
 
     @Override
     public CategoryIcon getSimpleIcon() {
-        return CategoryIcon.texture(TextureConfig.of(new Identifier("minecraft:textures/block/stone.png"), 16, 16));
+        return CategoryIcon.texture(TextureConfig.builder().texture(new Identifier("minecraft:textures/block/stone.png")).fullSize(16, 16).build());
     }
 }

@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 
 import java.util.List;
 
-public record TestDisplay(RecipeEntry<TestRecipe> entry) implements TlaRecipe {
+public record TestTlaRecipe(RecipeEntry<TestRecipe> entry) implements TlaRecipe {
     @Override
     public TlaCategory getCategory() {
         return TestPlugin.TEST_CATEGORY;
@@ -41,8 +41,13 @@ public record TestDisplay(RecipeEntry<TestRecipe> entry) implements TlaRecipe {
 
     @Override
     public void buildGui(GuiBuilder builder) {
+        var dirtTexture = TextureConfig.builder()
+                .texture(new Identifier("textures/block/dirt.png"))
+                .fullSize(16, 16)
+                .build();
+
         builder.addSlot(TlaIngredient.ofIngredient(entry.value().input()), 0, 4).addTooltip(Text.literal("hi")).markInput();
-        builder.addTexture(TextureConfig.of(new Identifier("textures/block/dirt.png"), 16, 16), 18, 0);
+        builder.addTexture(dirtTexture, 18, 0);
         builder.addArrow(24, 4, false).addTooltip(Text.literal("am arrow"));
         builder.addArrow(24, 24, true).addTooltip(Text.literal("am full arrow"));
         builder.addSlot(TlaStack.of(entry.value().output()).withChance(0.5), 46, 0).markOutput().makeLarge().addTooltip(Text.literal("am large"));

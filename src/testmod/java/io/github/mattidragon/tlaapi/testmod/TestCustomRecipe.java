@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class TestCustomDisplay implements TlaRecipe {
+public class TestCustomRecipe implements TlaRecipe {
     @Override
     public TlaCategory getCategory() {
         return TestPlugin.TEST_CATEGORY;
