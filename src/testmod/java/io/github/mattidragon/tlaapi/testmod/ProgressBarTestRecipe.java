@@ -42,7 +42,7 @@ public class ProgressBarTestRecipe implements TlaRecipe {
     @Override
     public void buildGui(GuiBuilder builder) {
         var texture = TextureConfig.builder()
-                .texture(new Identifier("textures/block/dirt.png"), new Identifier("textures/block/stone.png"))
+                .texture(Identifier.ofVanilla("textures/block/dirt.png"), Identifier.ofVanilla("textures/block/stone.png"))
                 .size(35, 10)
                 .regionSize(16, 16)
                 .textureSize(16, 16)

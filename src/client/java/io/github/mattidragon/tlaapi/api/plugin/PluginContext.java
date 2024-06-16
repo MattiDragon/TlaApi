@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.input.RecipeInput;
 
 import java.util.List;
 import java.util.function.Function;
@@ -38,7 +39,7 @@ public interface PluginContext {
      * @see TlaRecipe
      * @see #addGenerator
      */
-    <T extends Recipe<?>> void addRecipeGenerator(RecipeType<T> type, Function<RecipeEntry<T>, TlaRecipe> generator);
+    <I extends RecipeInput, T extends Recipe<I>> void addRecipeGenerator(RecipeType<T> type, Function<RecipeEntry<T>, TlaRecipe> generator);
 
     /**
      * Adds a recipe generator that can create recipe entries in the recipe viewer from any source.

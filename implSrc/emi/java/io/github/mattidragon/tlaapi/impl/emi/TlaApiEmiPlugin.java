@@ -18,10 +18,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.input.RecipeInput;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,13 +58,12 @@ public class TlaApiEmiPlugin implements EmiPlugin {
             }
         }
 
-        @SuppressWarnings("unchecked") // For some reason RecipeManager needs an inventory generic, which we don't have but don't need either
         @Override
-        public <T extends Recipe<?>> void addRecipeGenerator(RecipeType<T> type, Function<RecipeEntry<T>, TlaRecipe> generator) {
+        public <I extends RecipeInput, T extends Recipe<I>> void addRecipeGenerator(RecipeType<T> type, Function<RecipeEntry<T>, TlaRecipe> generator) {
             registry.getRecipeManager()
-                    .listAllOfType((RecipeType<Recipe<Inventory>>) type)
+                    .listAllOfType(type)
                     .forEach(recipe -> {
-                        var tlaRecipe = generator.apply((RecipeEntry<T>) recipe);
+                        var tlaRecipe = generator.apply(recipe);
                         var emiRecipe = new TlaEmiRecipe(tlaRecipe, categories.get(tlaRecipe.getCategory()));
                         registry.addRecipe(emiRecipe);
                     });

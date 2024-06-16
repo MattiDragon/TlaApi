@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 public class TestCategory implements TlaCategory {
     @Override
     public Identifier getId() {
-        return new Identifier("testmod:test_recipe");
+        return Identifier.of("testmod", "test_recipe");
     }
 
     @Override
@@ -35,6 +35,6 @@ public class TestCategory implements TlaCategory {
 
     @Override
     public CategoryIcon getSimpleIcon() {
-        return CategoryIcon.texture(TextureConfig.builder().texture(new Identifier("minecraft:textures/block/stone.png")).fullSize(16, 16).build());
+        return CategoryIcon.texture(TextureConfig.builder().texture(Identifier.ofVanilla("textures/block/stone.png")).fullSize(16, 16).build());
     }
 }

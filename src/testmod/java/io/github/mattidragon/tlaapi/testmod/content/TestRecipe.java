@@ -2,7 +2,6 @@ package io.github.mattidragon.tlaapi.testmod.content;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -10,17 +9,18 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 
-public record TestRecipe(Ingredient input, ItemStack output) implements Recipe<SimpleInventory> {
+public record TestRecipe(Ingredient input, ItemStack output) implements Recipe<CraftingRecipeInput> {
     @Override
-    public boolean matches(SimpleInventory inventory, World world) {
-        return input.test(inventory.getStack(0));
+    public boolean matches(CraftingRecipeInput inventory, World world) {
+        return input.test(inventory.getStackInSlot(0));
     }
 
     @Override
-    public ItemStack craft(SimpleInventory inventory, RegistryWrapper.WrapperLookup lookup) {
+    public ItemStack craft(CraftingRecipeInput inventory, RegistryWrapper.WrapperLookup lookup) {
         return output.copy();
     }
 

@@ -42,7 +42,7 @@ public record TestTlaRecipe(RecipeEntry<TestRecipe> entry) implements TlaRecipe 
     @Override
     public void buildGui(GuiBuilder builder) {
         var dirtTexture = TextureConfig.builder()
-                .texture(new Identifier("textures/block/dirt.png"))
+                .texture(Identifier.ofVanilla("textures/block/dirt.png"))
                 .fullSize(16, 16)
                 .build();
 
@@ -52,7 +52,7 @@ public record TestTlaRecipe(RecipeEntry<TestRecipe> entry) implements TlaRecipe 
         builder.addArrow(24, 24, true).addTooltip(Text.literal("am full arrow"));
         builder.addSlot(TlaStack.of(entry.value().output()).withChance(0.5), 46, 0).markOutput().makeLarge().addTooltip(Text.literal("am large"));
         builder.addCustomWidget(0, 22, 16, 16, (context, mouseX, mouseY, delta) -> {
-            context.drawTexture(new Identifier("textures/block/cobblestone.png"), 0, 0, 0, 0, 16, 16, 16, 16);
+            context.drawTexture(Identifier.ofVanilla("textures/block/cobblestone.png"), 0, 0, 0, 0, 16, 16, 16, 16);
         }).addTooltip(Text.literal("am custom widget"));
     }
 }

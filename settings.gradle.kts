@@ -25,6 +25,6 @@ dependencyResolutionManagement {
         library("rei-architectury", "dev.architectury:architectury-fabric:${getProp("architectury_version")}")
         library("rei-math", "me.shedaniel.cloth:basic-math:${getProp("cloth_basic_math_version")}")
         library("rei-config", "me.shedaniel.cloth:cloth-config-fabric:${getProp("cloth_config_version")}")
-        library("emi", "dev.emi:emi-fabric:${getProp("emi_version")}")
+        library("emi", "dev.emi:emi:${getProp("emi_version")}")
     }
 }

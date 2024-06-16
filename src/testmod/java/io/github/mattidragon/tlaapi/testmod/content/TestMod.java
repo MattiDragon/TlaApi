@@ -14,9 +14,15 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 public class TestMod implements ModInitializer {
-    public static final RecipeType<TestRecipe> RECIPE_TYPE = RecipeType.register("testmod:test_recipe");
+    public static final RecipeType<TestRecipe> RECIPE_TYPE = Registry.register(Registries.RECIPE_TYPE, Identifier.of("testmod:test_recipe"), new RecipeType<TestRecipe>() {
+        @Override
+        public String toString() {
+            return "testmod:test_recipe";
+        }
+    });
     public static final RecipeSerializer<TestRecipe> RECIPE_SERIALIZER = new TestRecipe.Serializer();
     public static final ScreenHandlerType<TestScreenHandler> SCREEN_HANDLER_TYPE = new ScreenHandlerType<>(TestScreenHandler::new, FeatureSet.empty());
 

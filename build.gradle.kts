@@ -15,6 +15,7 @@ group = "io.github.mattidragon"
 base.archivesName = "TLA-Api"
 
 repositories {
+    flatDir { dirs("lib") }
     maven("https://maven.shedaniel.me/")
     maven("https://maven.terraformersmc.com/")
 }
