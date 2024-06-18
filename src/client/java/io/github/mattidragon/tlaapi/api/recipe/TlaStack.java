@@ -65,7 +65,7 @@ public sealed abstract class TlaStack {
     }
 
     public static TlaItemStack of(ItemStack stack) {
-        return of(ItemVariant.of(stack.getItem()), stack.getCount());
+        return of(ItemVariant.of(stack), stack.getCount());
     }
 
     public long getAmount() {
