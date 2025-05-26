@@ -32,5 +32,6 @@ public class TestPlugin implements TlaApiPlugin {
         });
         context.addScreenSizeProvider(TestScreen.class, screen -> new TlaBounds(screen.getX(), screen.getY(), screen.getWidth(), screen.getHeight()));
         context.addExclusionZoneProvider(TestScreen.class, screen -> List.of(new TlaBounds(screen.getX() + screen.getWidth(), screen.getY(), 100, screen.getHeight())));
+        context.addScreenHandlerClickArea(TestScreen.class, TEST_CATEGORY, screen -> new TlaBounds(10, 10, 18, 18));
     }
 }

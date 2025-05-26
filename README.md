@@ -6,7 +6,7 @@
 
 TLA api is an abstraction layer over recipe viewer apis for minecraft.
 It allows mod developers to write their recipe viewer integration once and have it work with multiple recipe viewers.
-Currently supported recipe viewers are: [EMI](https://modrinth.com/mod/emi) and [REI](https://modrinth.com/mod/rei)
+Currently supported recipe viewers are: [EMI](https://modrinth.com/mod/emi), [REI](https://modrinth.com/mod/rei) and [JEI](https://modrinth.com/mod/jei)
 
 ## Usage
 ### Gradle
@@ -49,10 +49,10 @@ public class MyTlaPlugin implements TlaApiPlugin {
 ### Registering Content
 Once you've set up your entrypoint you can begin registering content. 
 The entire api is documented using javadocs, so you can use your IDE to explore the api.
-The api design is mostly based on EMIs, but I've had to make some changes to accommodate REI.
+The api design is mostly based on EMIs, but I've had to make some changes to accommodate REI and JEI.
 
 ### Things to Consider
-While the TLA api abstracts everything, you will still need to verify yourself that your code works with both recipe viewers.
+While the TLA api abstracts everything, you will still need to verify yourself that your code works with all> recipe viewers.
 For example, you still need to translate all of your tags for EMI. Some widgets might also render slightly differently.
 
 A useful thing to look for while using the api are the following annotations. 
@@ -66,7 +66,7 @@ Unless you are creating your own recipe viewer integration, you should not use t
 
 ## Questions
 #### Q: Does this allow mods that only support one viewer to work on both?
-A: No. This api just makes it easier for mod developers to support both viewers.
+A: No. This api just makes it easier for mod developers to support all recipe viewers.
 #### Q: Why is this api client side only?
 A: EMIs entire api is client side only. REI has a server side api, but it doesn't contain any features that TLA uses.
 #### Q: Are there any examples?

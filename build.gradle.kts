@@ -1,7 +1,7 @@
 import org.gradle.kotlin.dsl.support.uppercaseFirstChar
 
 plugins {
-    id("fabric-loom") version "1.4-SNAPSHOT"
+    id("fabric-loom") version "1.7-SNAPSHOT"
     id("maven-publish")
 }
 
@@ -12,11 +12,11 @@ val fabricVersion = property("fabric_version") as String
 
 version = property("mod_version") as String
 group = "io.github.mattidragon"
-base.archivesName = "TLA-Api"
 
 repositories {
     maven("https://maven.shedaniel.me/")
     maven("https://maven.terraformersmc.com/")
+    maven("https://maven.blamejared.com/")
 }
 
 loom.splitEnvironmentSourceSets()
@@ -50,7 +50,7 @@ loom {
     mods.create("tlaapi_testmod").sourceSet(sourceSets.testmod)
 }
 
-arrayOf("rei", "emi").forEach { name ->
+arrayOf("rei", "emi", "jei").forEach { name ->
     val compilePaths = sourceSets.main.compileClasspath +
             sourceSets.main.output +
             sourceSets.client.compileClasspath +
@@ -88,6 +88,10 @@ arrayOf("rei", "emi").forEach { name ->
         from(sourceSet.output)
         dependsOn(sourceSet.classesTaskName)
     }
+
+    tasks.remapJar {
+        classpath.from(configurations.getByName(sourceSet.compileClasspathConfigurationName))
+    }
 }
 
 dependencies {
@@ -98,16 +102,22 @@ dependencies {
     modImplementation(libs.fabric.loader)
     modImplementation(libs.fabric.api)
 
-    add("modReiCompileOnly", libs.rei.api)
+    // add("modReiCompileOnly", libs.rei.api)
     add("modReiCompileOnly", libs.rei.plugin.default)
     // For some reason arch isn't a transitive dependency of rei-api, so we need to manually add it to use a few classes
     add("modReiCompileOnly", libs.rei.architectury)
-    add("modReiCompileOnly", libs.rei.math)
     add("modReiCompileOnly", libs.rei.config)
-    add("modReiRuntimeOnly", libs.rei.all)
+    // Because of issues with the rei api, we have to depend on the fat jar instead (https://github.com/shedaniel/RoughlyEnoughItems/issues/1740)
+    add("modReiCompileOnly", libs.rei.all)
 
     add("modEmiCompileOnly", libs.emi.withClassifier("api"))
     add("modEmiRuntimeOnly", libs.emi)
+    
+    // Because of issues with the remapping of the jei api, we have to depend on the fat jar instead (https://github.com/mezz/JustEnoughItems/issues/2891)
+    addProvider<MinimalExternalModuleDependency, MinimalExternalModuleDependency>("modJeiCompileOnly", libs.jei.fabric) {
+        exclude(group = "mezz.jei")
+    }
+    add("modJeiRuntimeOnly", libs.jei.fabric)
 }
 
 configurations.all {
@@ -121,15 +131,11 @@ tasks.processResources  {
     }
 }
 
-tasks.withType<JavaCompile> {
-    options.release = 17
-}
-
 java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
     withSourcesJar()
-
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
 }
 
 tasks.jar {
@@ -142,7 +148,6 @@ publishing {
     publications {
         register<MavenPublication>("mavenJava") {
             from(components["java"])
-            artifact(tasks["sourcesJar"])
         }
     }
 

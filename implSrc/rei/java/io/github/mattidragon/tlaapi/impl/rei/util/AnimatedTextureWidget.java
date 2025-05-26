@@ -12,7 +12,6 @@ import net.minecraft.util.Identifier;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.DoubleSupplier;
 
 // hopefully working combination of EMI and REI code
