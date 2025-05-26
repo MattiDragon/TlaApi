@@ -19,7 +19,7 @@ public class ReiUtil {
 
     public static EntryStack<?> convertStack(TlaStack stack) {
         if (stack instanceof TlaStack.TlaFluidStack fluidStack) {
-            var archFluidStack = FluidStack.create(fluidStack.getFluid(), fluidStack.getAmount(), fluidStack.getFluidVariant().getComponents());
+            var archFluidStack = FluidStack.create(fluidStack.getFluid(), fluidStack.getAmount(), fluidStack.getFluidVariant().getNbt());
             return EntryStacks.of(archFluidStack);
         } else if (stack instanceof TlaStack.TlaItemStack itemStack) {
             return EntryStacks.of(itemStack.toStack());
@@ -47,12 +47,12 @@ public class ReiUtil {
     }
 
     public static TlaStack convertStack(FluidStack fluidStack) {
-        return TlaStack.of(FluidVariant.of(fluidStack.getFluid(), fluidStack.getPatch()), fluidStack.getAmount());
+        return TlaStack.of(FluidVariant.of(fluidStack.getFluid(), fluidStack.getTag()), fluidStack.getAmount());
     }
 
     public static TlaIngredient convertIngredient(EntryIngredient ingredient) {
         if (ingredient.isEmpty()) return TlaIngredient.EMPTY;
-        if (ingredient.size() == 1) return TlaIngredient.ofStacks(convertStack(ingredient.getFirst()));
+        if (ingredient.size() == 1) return TlaIngredient.ofStacks(convertStack(ingredient.get(0)));
 
         return TlaIngredient.ofStacks(ingredient.stream().map(ReiUtil::convertStack).toList());
     }

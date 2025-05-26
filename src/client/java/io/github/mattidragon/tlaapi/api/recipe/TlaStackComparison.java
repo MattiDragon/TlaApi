@@ -10,15 +10,15 @@ import java.util.function.Function;
  * @see PluginContext#setDefaultComparison
  */
 public record TlaStackComparison(EqualityPredicate equalityPredicate, HashFunction hashFunction) {
-    private static final TlaStackComparison COMPARE_COMPONENTS = compareData(TlaStack::getComponents);
+    private static final TlaStackComparison COMPARE_NBT = compareData(TlaStack::getNbt);
     public static final TlaStackComparison DEFAULT_COMPARISON = of((a, b) -> true, a -> 0);
 
     public static TlaStackComparison of() {
         return DEFAULT_COMPARISON;
     }
 
-    public static TlaStackComparison compareComponents() {
-        return COMPARE_COMPONENTS;
+    public static TlaStackComparison compareNbt() {
+        return COMPARE_NBT;
     }
 
 

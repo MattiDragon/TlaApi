@@ -13,6 +13,7 @@ import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.helpers.IPlatformFluidHelper;
 import mezz.jei.api.ingredients.ITypedIngredient;
 import mezz.jei.api.runtime.IIngredientManager;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
@@ -21,13 +22,16 @@ import java.util.Optional;
 
 public class JeiUtils {
     public static final Identifier VANILLA_GUI_TEXTURE = Identifier.of(ModIds.JEI_ID, "textures/jei/gui/gui_vanilla.png");
-    
+
     public static Optional<? extends ITypedIngredient<?>> convertStack(IJeiHelpers helpers, TlaStack stack) {
         var manager = helpers.getIngredientManager();
-        return switch (stack) {
-            case TlaStack.TlaFluidStack fluidStack -> createFluidIngredient(manager, helpers.getPlatformFluidHelper(), fluidStack);
-            case TlaStack.TlaItemStack itemStack -> manager.createTypedIngredient(VanillaTypes.ITEM_STACK, itemStack.toStack());
-        };
+        if (stack instanceof TlaStack.TlaFluidStack fluidStack) {
+            return createFluidIngredient(manager, helpers.getPlatformFluidHelper(), fluidStack);
+        } else if (stack instanceof TlaStack.TlaItemStack itemStack) {
+            return manager.createTypedIngredient(VanillaTypes.ITEM_STACK, itemStack.toStack());
+        } else {
+            return Optional.empty();
+        }
     }
 
     public static List<ITypedIngredient<?>> convertIngredient(IJeiHelpers helpers, TlaIngredient ingredient) {
@@ -43,7 +47,7 @@ public class JeiUtils {
             return TlaStack.of(((ItemStack) stack.getIngredient()));
         } else if (stack.getType() == FabricTypes.FLUID_STACK) {
             var ingredient = (IJeiFluidIngredient) stack.getIngredient();
-            return TlaStack.of(ingredient.getFluidVariant(), ingredient.getAmount());
+            return TlaStack.of(FluidVariant.of(ingredient.getFluid(), ingredient.getTag().orElse(null)), ingredient.getAmount());
         } else {
             return TlaStack.empty();
         }
@@ -54,13 +58,15 @@ public class JeiUtils {
     }
 
     public static IDrawable iconToDrawable(IJeiHelpers helpers, CategoryIcon icon) {
-        return switch (icon) {
-            case CategoryIcon.StackIcon stackIcon ->
-                    convertStack(helpers, stackIcon.stack())
-                            .map(it -> getDrawableIngredient(helpers.getGuiHelper(), it))
-                            .orElseGet(() -> helpers.getGuiHelper().createBlankDrawable(16, 16));
-            case CategoryIcon.TextureIcon textureIcon -> new TextureDrawable(textureIcon.texture());
-        };
+        if (icon instanceof CategoryIcon.StackIcon stackIcon) {
+            return convertStack(helpers, stackIcon.stack())
+                    .map(it -> getDrawableIngredient(helpers.getGuiHelper(), it))
+                    .orElseGet(() -> helpers.getGuiHelper().createBlankDrawable(16, 16));
+        } else if (icon instanceof CategoryIcon.TextureIcon textureIcon) {
+            return new TextureDrawable(textureIcon.texture());
+        } else {
+            throw new RuntimeException("Not an acceptable category icon");
+        }
     }
 
     private static <T> IDrawable getDrawableIngredient(IGuiHelper guiHelper, ITypedIngredient<T> converted) {
@@ -71,7 +77,7 @@ public class JeiUtils {
         var variant = stack.getFluidVariant();
         return manager.createTypedIngredient(
                 helper.getFluidIngredientType(),
-                helper.create(variant.getRegistryEntry(), stack.getAmount(), variant.getComponents())
+                helper.create(variant.getFluid(), stack.getAmount(), variant.getNbt())
         );
     }
 }

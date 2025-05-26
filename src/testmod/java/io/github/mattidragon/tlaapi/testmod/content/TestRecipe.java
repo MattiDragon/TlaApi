@@ -1,26 +1,33 @@
 package io.github.mattidragon.tlaapi.testmod.content;
 
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.google.gson.JsonObject;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.input.CraftingRecipeInput;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.recipe.ShapedRecipe;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.JsonHelper;
 import net.minecraft.world.World;
 
-public record TestRecipe(Ingredient input, ItemStack output) implements Recipe<CraftingRecipeInput> {
+public record TestRecipe(Identifier id, Ingredient input, ItemStack output) implements Recipe<RecipeInputInventory> {
+
     @Override
-    public boolean matches(CraftingRecipeInput inventory, World world) {
-        return input.test(inventory.getStackInSlot(0));
+    public Identifier getId() {
+        return id;
     }
 
     @Override
-    public ItemStack craft(CraftingRecipeInput inventory, RegistryWrapper.WrapperLookup lookup) {
+    public boolean matches(RecipeInputInventory inventory, World world) {
+        return input.test(inventory.getStack(0));
+    }
+
+    @Override
+    public ItemStack craft(RecipeInputInventory inventory, DynamicRegistryManager lookup) {
         return output.copy();
     }
 
@@ -30,7 +37,7 @@ public record TestRecipe(Ingredient input, ItemStack output) implements Recipe<C
     }
 
     @Override
-    public ItemStack getResult(RegistryWrapper.WrapperLookup lookup) {
+    public ItemStack getOutput(DynamicRegistryManager lookup) {
         return output;
     }
 
@@ -45,23 +52,26 @@ public record TestRecipe(Ingredient input, ItemStack output) implements Recipe<C
     }
 
     public static class Serializer implements RecipeSerializer<TestRecipe> {
-        private static final MapCodec<TestRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("input").forGetter(TestRecipe::input),
-            ItemStack.CODEC.fieldOf("output").forGetter(TestRecipe::output)
-        ).apply(instance, TestRecipe::new));
-        private static final PacketCodec<RegistryByteBuf, TestRecipe> PACKET_CODEC = PacketCodec.tuple(
-                Ingredient.PACKET_CODEC, TestRecipe::input,
-                ItemStack.PACKET_CODEC, TestRecipe::output,
-                TestRecipe::new);
-
         @Override
-        public MapCodec<TestRecipe> codec() {
-            return CODEC;
+        public TestRecipe read(Identifier id, JsonObject json) {
+            return new TestRecipe(id,
+                    Ingredient.fromJson(JsonHelper.getObject(json, "input")),
+                    ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "output"))
+            );
         }
 
         @Override
-        public PacketCodec<RegistryByteBuf, TestRecipe> packetCodec() {
-            return PACKET_CODEC;
+        public TestRecipe read(Identifier id, PacketByteBuf buf) {
+            return new TestRecipe(id,
+                    Ingredient.fromPacket(buf),
+                    buf.readItemStack()
+            );
+        }
+
+        @Override
+        public void write(PacketByteBuf buf, TestRecipe recipe) {
+            recipe.input().write(buf);
+            buf.writeItemStack(recipe.output());
         }
     }
 }

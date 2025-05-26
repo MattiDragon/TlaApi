@@ -17,7 +17,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class TestMod implements ModInitializer {
-    public static final RecipeType<TestRecipe> RECIPE_TYPE = Registry.register(Registries.RECIPE_TYPE, Identifier.of("testmod:test_recipe"), new RecipeType<TestRecipe>() {
+    public static final RecipeType<TestRecipe> RECIPE_TYPE = Registry.register(Registries.RECIPE_TYPE, new Identifier("testmod:test_recipe"), new RecipeType<TestRecipe>() {
         @Override
         public String toString() {
             return "testmod:test_recipe";
