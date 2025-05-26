@@ -18,7 +18,7 @@ public class EmiUtils {
     public static EmiStack convertStack(TlaStack stack) {
         EmiStack emiStack;
         if (stack instanceof TlaStack.TlaFluidStack fluidStack) {
-            emiStack = EmiStack.of(fluidStack.getFluid(), fluidStack.getFluidVariant().getComponents(), fluidStack.getAmount());
+            emiStack = EmiStack.of(fluidStack.getFluid(), fluidStack.getFluidVariant().getNbt(), fluidStack.getAmount());
         } else if (stack instanceof TlaStack.TlaItemStack itemStack) {
             emiStack = EmiStack.of(itemStack.toStack(), itemStack.getAmount());
         } else {
@@ -42,11 +42,11 @@ public class EmiUtils {
 
     public static TlaStack convertStack(EmiStack stack) {
         if (stack.getKey() instanceof Fluid fluid) {
-            var out = TlaStack.of(FluidVariant.of(fluid, stack.getComponentChanges()), stack.getAmount());
+            var out = TlaStack.of(FluidVariant.of(fluid, stack.getNbt()), stack.getAmount());
             if (stack.getChance() != 1) out = out.withChance(stack.getChance());
             return out;
         } else if (stack.getKey() instanceof Item item) {
-            var out = TlaStack.of(ItemVariant.of(item, stack.getComponentChanges()), stack.getAmount()).withChance(stack.getChance());
+            var out = TlaStack.of(ItemVariant.of(item, stack.getNbt()), stack.getAmount()).withChance(stack.getChance());
             if (stack.getChance() != 1) out = out.withChance(stack.getChance());
             return out;
         }

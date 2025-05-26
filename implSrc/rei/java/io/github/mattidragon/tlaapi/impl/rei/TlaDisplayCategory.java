@@ -12,7 +12,7 @@ import java.util.List;
 
 public class TlaDisplayCategory implements DisplayCategory<TlaDisplay> {
     private final CategoryIdentifier<TlaDisplay> id;
-    private final TlaCategory category;
+    final TlaCategory category;
 
     public TlaDisplayCategory(TlaCategory category) {
         this.id = CategoryIdentifier.of(category.getId());

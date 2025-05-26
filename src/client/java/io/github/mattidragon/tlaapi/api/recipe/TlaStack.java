@@ -3,15 +3,17 @@ package io.github.mattidragon.tlaapi.api.recipe;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.minecraft.component.ComponentChanges;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 
 import java.util.Objects;
 import java.util.OptionalDouble;
+
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a stack of items or fluids for use with recipe viewers.
@@ -97,7 +99,8 @@ public sealed abstract class TlaStack {
         return TlaIngredient.ofStacks(this);
     }
 
-    public abstract ComponentChanges getComponents();
+    @Nullable
+    public abstract NbtCompound getNbt();
 
     public static final class TlaFluidStack extends TlaStack {
         private final FluidVariant fluid;
@@ -131,9 +134,10 @@ public sealed abstract class TlaStack {
             return fluid.getFluid();
         }
 
+        @Nullable
         @Override
-        public ComponentChanges getComponents() {
-            return fluid.getComponents();
+        public NbtCompound getNbt() {
+            return fluid.getNbt();
         }
 
         @Override
@@ -195,9 +199,10 @@ public sealed abstract class TlaStack {
             return item.toStack((int) amount);
         }
 
+        @Nullable
         @Override
-        public ComponentChanges getComponents() {
-            return item.getComponents();
+        public NbtCompound getNbt() {
+            return item.getNbt();
         }
 
         @Override

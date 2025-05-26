@@ -4,8 +4,10 @@ import io.github.mattidragon.tlaapi.api.recipe.TlaRecipe;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
+import net.minecraft.util.Identifier;
 
 import java.util.List;
+import java.util.Optional;
 
 public class TlaDisplay implements Display {
     private final CategoryIdentifier<?> category;
@@ -14,6 +16,11 @@ public class TlaDisplay implements Display {
     public TlaDisplay(CategoryIdentifier<?> category, TlaRecipe recipe) {
         this.category = category;
         this.recipe = recipe;
+    }
+
+    @Override
+    public Optional<Identifier> getDisplayLocation() {
+        return Optional.ofNullable(recipe.getId());
     }
 
     @Override

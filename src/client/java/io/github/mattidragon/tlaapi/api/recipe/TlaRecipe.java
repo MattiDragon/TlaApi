@@ -24,7 +24,6 @@ public interface TlaRecipe {
      * This may return {@code null} if the recipe doesn't have an identifier and one can't be generated,
      * but that will result in certain features not working properly.
      * For recipes that aren't vanilla recipes it's recommended to provide an identifier with a single slash at the start of the path to distinguish it.
-     * @implNote Only used by the EMI and JEI implementations.
      */
     @Nullable Identifier getId();
 
