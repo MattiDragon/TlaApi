@@ -12,7 +12,6 @@ val fabricVersion = property("fabric_version") as String
 
 version = property("mod_version") as String
 group = "io.github.mattidragon"
-base.archivesName = "TLA-Api"
 
 repositories {
     maven("https://maven.shedaniel.me/")
